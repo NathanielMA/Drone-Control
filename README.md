@@ -9,7 +9,7 @@ Note to teammates:
 
 Seeing that you may be new to using this glove that I have made. Here is a quick rundown on how to adjust the parameters in the code to fit the glove.
 
-###Intro
+## Intro
 
 To start, ensure you have all the reuqired libraries installed. Here is the list of headers used in the code.
 ```markdown
