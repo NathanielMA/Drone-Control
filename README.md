@@ -43,6 +43,10 @@ I have also provided the **ZIP file** for the other libraries via WhatsApp. If y
 If you haven't already noticed, the WiFiManager library automatically puts the ESP8266 into Accesspoint mode if it cannot connect to a previous know network.
 To have it connect to WiFi, simply connect to the device in your computers WiFi settings.
 
+## Uploading new code
+
+The code also features the use of ArduinoOTA, or Arduino Over-The-Air. It will allow you to compile and upload to the ESP8266 remotely! Simply turn on the board and ensure that it is connected to WiFi. The go to **Tools** and change the **Port** to the IP of your ESP8266.
+
 ## Changing parameters
 
 The easiest way to change parameters for the flex sensors or adjusting the MPU6050 axis is to edit variables in the **Data_Analyzer** tab.
