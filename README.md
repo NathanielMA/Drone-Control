@@ -5,7 +5,7 @@ Our project utilizes the ESP8266 12E to receive data from 5 flex sensors, Voice 
 The ESP8266 is able to communicate with our drone utilizes its' built-in WiFi module. By using the WiFiUdp library for the ESP8266 12E 
 we are able to send UDP packets to and from the Drone!
 
-Note to teammates:
+**Note for teammates:**
 
 Seeing that you may be new to using this glove that I have made. Here is a quick rundown on how to adjust the parameters in the code to fit the glove.
 
@@ -36,7 +36,7 @@ To start, ensure you have all the reuqired libraries installed. Here is the list
 #include "VoiceRecognitionV3.h"
 ```
 If you haven't already, you may need to download the WiFiManager library (by Tzapu) and AdafruitBusIO from the library manager.
-I have also provided the ZIP file for the other libraries via WhatsApp. If you require me to resend them send me an email at Natedagreat2003@gmail.com.
+I have also provided the **ZIP file** for the other libraries via WhatsApp. If you require me to resend them send me an email at **Natedagreat2003@gmail.com**.
 
 ## Connecting to WiFi
 
@@ -47,7 +47,7 @@ To have it connect to WiFi, simply connect to the device in your computers WiFi 
 
 The easiest way to change parameters for the flex sensors or adjusting the MPU6050 axis is to edit variables in the **Data_Analyzer** tab.
 
-Note: the ADS1115 introduce up to 8 new adc pins to the ESP8266 (The built in ADC in usused).
+**Note: the ADS1115 introduce up to 8 new adc pins to the ESP8266 (The built in ADC in usused).**
 
 ```
 adc0 = ads.readADC_SingleEnded(0);
@@ -75,7 +75,7 @@ Digitus = map( ===> adc2, 0, 15000, 0 , 100);
 if(Digitus > 100){ Digitus = 100;}
 if(Digitus < 0){ Digitus = 0;}
 ```
-If you have the 2.2in ADAFRUIT flex sensors installed for the pinky and thumb simply adjust here as well
+If you have the **2.2in ADAFRUIT flex sensors** installed for the pinky and thumb simply adjust here as well
 ```
 //2.2in ADAFRUIT flex sensors. Utilizing a voltage divider of 47K OHM
 //Set unflexed sensor value equal to 0
@@ -96,7 +96,7 @@ DegZ = Az * 90;
 ```
 Simply adjust Ax, Ay, or Az. flip them around or make them negative. Do as you see fit for your gestures!
 
-###Adding in Gestures
+### Adding in Gestures
 
 To add in a gesture head on over to the **Gestures** tab.
 
