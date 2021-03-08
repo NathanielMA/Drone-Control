@@ -280,13 +280,35 @@ A good way to allow the statement to continually stay within the desired command
       break;
     }
 ```
+**NOTE: Do not reuse return values!**
+```
+//###################################################################################################################################
+//Current list of commands
+//  0   -- WAIT FOR NEXT COMMAND
+//  1   -- UPLOAD MISSION
+//  2   -- EXECUTE MISSION
+//  3   -- TERMINATE MISSION
+//  4   -- ADJUST YAW
+//  5   -- DIRECTION_RELATIVE
+//  6   -- DIRECTION_ABSOLUTE
+//  7   -- ALTITUDE_ADJUSTMENT
+//  8   -- ORBIT
+//  9   -- LAND
+//  10  -- RETURN TO LAND
+//  11  -- STARTUP COMMAND ~~NOTE: HANDLED IN LOOP
+// 101  -- Cancel RTL AND OR LAND
+// 123  -- IDENTIFIER FOR FIRST PHASE OF RTL GESTURE  ~~NOTE: SOLELY FOR TROUBLESHOOTING
+// 201  -- Acknowledge RTL AND OR LAND
+// 301  -- WiFi communications LOCKED
+```
+These values **CANNOT** be reused. Otherwise, to reuse them, a nest statement **MUST** be made on the simulation side to enable reuse. Much like hand gestures. Since we are dealing with numbers that don't involve a limited number of hand gestures. There is no purpose to reusing the values.
 
 ## Adding in voice commands
 
 Voice commands are relatively easy to add to the code
 
 Within the **Main** tab there are already 45 voice commands uploaded. 
-**Note: You'll ahve to add the same commands to your module!**
+**Note: You'll have to add the same commands to your module!**
 
 Simply define the new voice command here with its respective index
 ```
