@@ -16,7 +16,8 @@ we are able to send UDP packets to and from the Drone!
 
 ### Product Design Review:
 
-[Uploading PDR_T.A.,F.A.,N.M.A.,M.Y..pptx…]()
+[PDR_T.A.,F.A.,N.M.A.,M.Y..pptx](https://github.com/NathanielMA/DroneControlProject/files/6098851/PDR_T.A.F.A.N.M.A.M.Y.pptx)
+
 
 
 ## Prototype Glove Designs
