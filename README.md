@@ -43,9 +43,23 @@ I have also provided the **ZIP file** for the other libraries via WhatsApp. If y
 If you haven't already noticed, the WiFiManager library automatically puts the ESP8266 into Accesspoint mode if it cannot connect to a previous know network.
 To have it connect to WiFi, simply connect to the device in your computers WiFi settings.
 
+<img width="275" alt="img1" src="https://user-images.githubusercontent.com/79669935/110270867-cb710080-7f94-11eb-86e5-4cc07cf62224.png">
+
+After connecting to the access point, open your browser and it will redirect to a generate html webpage
+
+<img width="472" alt="img2" src="https://user-images.githubusercontent.com/79669935/110271158-741f6000-7f95-11eb-8d4c-dea5953edf73.png">
+
+Click on **Configure WiFi** and you'll be able to select your network and input your credentials
+
+<img width="363" alt="img3" src="https://user-images.githubusercontent.com/79669935/110271243-95804c00-7f95-11eb-96eb-b40ba34dd0dd.png">
+
+
 ## Uploading new code
 
 The code also features the use of ArduinoOTA, or Arduino Over-The-Air. It will allow you to compile and upload to the ESP8266 remotely! Simply turn on the board and ensure that it is connected to WiFi. The go to **Tools** and change the **Port** to the IP of your ESP8266.
+
+<img width="496" alt="img5" src="https://user-images.githubusercontent.com/79669935/110271327-cb253500-7f95-11eb-800b-48123bca88bc.png">
+
 
 ## Changing parameters
 
