@@ -45,7 +45,7 @@ To have it connect to WiFi, simply connect to the device in your computers WiFi 
 
 <img width="275" alt="img1" src="https://user-images.githubusercontent.com/79669935/110270867-cb710080-7f94-11eb-86e5-4cc07cf62224.png">
 
-After connecting to the access point, open your browser and it will redirect to a generate html webpage
+After connecting to the access point, open your browser and it will redirect to a generated html webpage
 
 <img width="472" alt="img2" src="https://user-images.githubusercontent.com/79669935/110271158-741f6000-7f95-11eb-8d4c-dea5953edf73.png">
 
