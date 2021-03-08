@@ -264,7 +264,7 @@ int COMMAND(){
     }
 ```
 
-A good way to allow the statement to contually stay within the desired command, is to use the ! operator.
+A good way to allow the statement to continually stay within the desired command, is to use the ! operator.
 ```
       ...
       ...
