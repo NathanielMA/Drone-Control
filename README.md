@@ -1,11 +1,25 @@
-## Welcome to Our Senior Design Project
-## SOFWERX Drone Control
+# Welcome to Our Senior Design Project
+# SOFWERX Drone Control
 
 Our project utilizes the ESP8266 12E to receive data from 5 flex sensors, Voice Recognition module, MPU-6050 IMU and a 0.96" OLED. 
 The ESP8266 is able to communicate with our drone utilizes its' built-in WiFi module. By using the WiFiUdp library for the ESP8266 12E 
 we are able to send UDP packets to and from the Drone!
 
-**Note for teammates:**
+## DESIGN 1 ASSIGNMENTS
+### Bi-weekly Report:
+
+[SOFWERX_DRONECONTROL_T.A.,F.A.,N.M.A.,M.Y (1).xlsx](https://github.com/NathanielMA/DroneControlProject/files/6098788/SOFWERX_DRONECONTROL_T.A.F.A.N.M.A.M.Y.1.xlsx)
+
+### System Requirements Document:
+
+[Final_SRD_SOFWERX_DRONECONTROL_T.A.,F.A.,N.M.A.,Y.M..docx](https://github.com/NathanielMA/DroneControlProject/files/6098780/Final_SRD_SOFWERX_DRONECONTROL_T.A.F.A.N.M.A.Y.M.docx)
+
+### Product Design Review:
+
+[Drone control .pptx](https://github.com/NathanielMA/DroneControlProject/files/6098785/Drone.control.pptx)
+
+
+## TEAMMATES PLEASE READ:
 
 Seeing that you may be new to using this glove that I have made. Here is a quick rundown on how to adjust the parameters in the code to fit the glove.
 
