@@ -18,6 +18,16 @@ we are able to send UDP packets to and from the Drone!
 
 [Drone control .pptx](https://github.com/NathanielMA/DroneControlProject/files/6098785/Drone.control.pptx)
 
+## Prototype Glove Designs
+
+### Version 1
+![Prototype glove](https://user-images.githubusercontent.com/79669935/110272504-60c1c400-7f98-11eb-9000-8dd6350ede5b.jpeg)
+
+### Version 2
+![IMG_0960_2](https://user-images.githubusercontent.com/79669935/110272606-98307080-7f98-11eb-8947-2f7fc802cc9b.jpg)
+
+
+### Version 3
 
 ## TEAMMATES PLEASE READ:
 
