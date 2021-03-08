@@ -145,6 +145,142 @@ if(Thumbs_up_nodir  ? Thumbs_UP_NODIR = true: Thumbs_UP_NODIR = false);
 
 To make it easy for you to add in gestures simply add their variable type and name to the **Gestures** tab instead of **Main**
 
+### Re-using Gestures
+
+One thing you may want to do is use pre existing gestures to aid in new gestures. Seeing that making new unique gestures can become rather confusing
+in the grand scheme of things. Here's an example on how to re-use the existing gestures.
+```
+int COMMAND(){
+  static enum { WAIT_COMMAND, LOCK_TOGGLE_1, LOCK_TOGGLE_2, UPLOAD_MISSION, EXECUTE_MISSION, TERMINATE_MISSION, STATIONARY, ADJUST_YAW, DIRECTION_REL, DIRECTION_ABS,\
+  ALTITUDE_ADJ, ORBIT, RTL_STATE_1, MODE_RTL, LAND, LAND_STATE_1, ARM_AND_TAKEOFF} state = WAIT_COMMAND;
+  
+  int *STATE_GESTURE, HOLD_STATE_GESTURE, COUNTER;
+  String Degy = String(-DegY); 
+  String Degx = String(DegX); 
+  String GyY = String(GY);
+  
+  //#########################
+  bool REUSE_EXAMPLE = false; 
+  //#########################
+  
+case WAIT_COMMAND:              //wait for a command
+      STATE_GESTURE = &CURRENT_STATE_GESTURE;
+      CURRENT_STATE_GESTURE = 0;
+      
+      UDP_SEND();
+      
+      if(currentMillis_disp - startMillis_disp >= period_disp){
+        display_SHOW = true;
+      }
+      
+      //#############################
+      if(REUSE_EXAMPLE == false){       //Basic hand gestures for overall use
+      //#############################
+      
+        if(closeFist_UP){
+          delay(250);
+          state = LOCK_TOGGLE_1;
+          startMillis = millis();
+        }
+        if(Point_UP and UPLOAD == 0 and startUp == true){
+          state = UPLOAD_MISSION;
+        }
+        if(Thumbs_UP_NODIR){
+          state = ALTITUDE_ADJ;
+        }
+        if(Rocker_UP){
+          state = ORBIT;
+        }
+        if(Thumbs_UP and UPLOAD == 1){
+          state = EXECUTE_MISSION;
+          startMillis_disp = millis();
+        }
+        if(Thumbs_DOWN and UPLOAD == 2){
+          state = TERMINATE_MISSION;
+          startMillis_disp = millis();
+        }
+        if(Hand_FLAT){
+          state = DIRECTION_REL;
+        }
+        if(Hand_FLAT_TIN){
+          state = DIRECTION_ABS;
+        }
+        if(Point_FORWARD){
+          state = ADJUST_YAW;
+          startMillis_disp = millis();
+        }
+        if(BECKON){
+          delay(250);
+          state = RTL_STATE_1;
+          startMillis = millis();
+        }      
+        if(Point_DOWN){
+          state = LAND;
+          startMillis = millis();
+        }
+      }
+      //##############################
+      else if(REUSE_EXAMPLE == true){     //Enable premade hand gestures to be reused for another purpose (EG. Waypoints)
+      //##############################
+      
+        ...
+        ...
+        ...
+        
+        if(Thumbs_DOWN){
+          REUSE_EXAMPLE = false;          //breakout and return to basic gesture uses
+        }
+      }
+    break;
+    
+    ...
+    ... 
+    ...
+    }
+```
+
+Ensure when using the case statement to add your case to the **static enum** variable string.
+```
+int COMMAND(){
+  static enum { WAIT_COMMAND, EXAMPLE_STATE } state = WAIT_COMMAND;
+  
+  currentMillis_disp = millis();
+  
+  switch (state){
+    case WAIT_COMMAND:              //wait for a command
+    
+    switch(state){
+      case WAIT_COMMAND:
+      ...
+      if(EXAMPLE_GESTURE){
+        state = EXAMPLE_COMMAND;
+      }
+      ...
+      ...
+      break;
+      
+      case EXAMPLE_COMMAND:
+      break;
+    }
+```
+
+A good way to allow the statement to contually stay within the desired command, is to use the ! operator.
+```
+      ...
+      ...
+      ...
+      
+      case EXAMPLE_COMMAND:
+        CURRENT_STATE_GESTURE = 1234;
+        UDP_SEND();
+        
+        if(!EXAMPLE_GESTURE){
+        state = WAIT_COMMAND; //break from current gesture and resturn to wait for another command
+        }
+      break;
+    }
+```
+
 ## Adding in voice commands
 
 Voice commands are relatively easy to add to the code
