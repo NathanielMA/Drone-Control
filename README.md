@@ -8,7 +8,7 @@ we are able to send UDP packets to and from the Drone!
 ## DESIGN 1 ASSIGNMENTS
 ### Bi-weekly Report:
 
-[SOFWERX_DRONECONTROL_T.A.,F.A.,N.M.A.,M.Y (1).xlsx](https://github.com/NathanielMA/DroneControlProject/files/6098788/SOFWERX_DRONECONTROL_T.A.F.A.N.M.A.M.Y.1.xlsx)
+[SOFWERX_DRONECONTROL_T.A.,F.A.,N.M.A.,M.Y. .xlsx](https://github.com/NathanielMA/DroneControlProject/files/6098788/SOFWERX_DRONECONTROL_T.A.F.A.N.M.A.M.Y.1.xlsx)
 
 ### System Requirements Document:
 
@@ -16,7 +16,8 @@ we are able to send UDP packets to and from the Drone!
 
 ### Product Design Review:
 
-[Drone control .pptx](https://github.com/NathanielMA/DroneControlProject/files/6098785/Drone.control.pptx)
+[Uploading PDR_T.A.,F.A.,N.M.A.,M.Y..pptx…]()
+
 
 ## Prototype Glove Designs
 
