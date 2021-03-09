@@ -33,7 +33,7 @@ we are able to send UDP packets to and from the Drone!
 
 ## TEAMMATES PLEASE READ:
 
-Seeing that you may be new to using this glove that I have made. Here is a quick rundown on how to adjust the parameters in the code to fit the glove.
+Seeing that you may be new to using this glove that I have made. Here is a quick rundown on how to adjust the parameters in the code to fit the glove. Since this code took me nearly three months to develop, there is a bit to learn about the code.
 
 ## Intro
 
@@ -349,8 +349,11 @@ Voice commands are relatively easy to add to the code
 
 Within the **Main** tab there are already 45 voice commands uploaded. 
 **Note: You'll have to add the same commands to your module!**
+**Each voice command is spoken as it is written in the code without VR**
 
-Simply define the new voice command here with its respective index
+Simply define the new voice command here with its respective index.
+Here is the list of each voice command that is currently supported. There is no need to use a group number when adding in voice commands. The purpose of the groups were to to help myself separate and model commands.
+
 ```
 #define DRONE                     (42)
 #define DISABLE_VR                (43)
@@ -359,9 +362,249 @@ Simply define the new voice command here with its respective index
 #define STOP_VR                   (2)  
 #define NEXT_VR                   (3)
 #define BACK_VR                   (4)
+
+//start Group 1
+#define DRONE                     (42)
+#define START_VR                  (0)
+
+//height Group 2 
+//constant - DRONE
+#define TEN_VR                    (37)
+#define TWENTY_VR                 (38)
+#define THIRTY_VR                 (39)
+#define FOURTY_VR                 (40)
+#define FIFTY_VR                  (41)
+
+//Identifier Group A
+//constants - Drone, Next, Cancel
+//group 3
+#define UPLOAD_MISSION_VR         (5)
+#define DIRECTION_VR              (8)
+#define ADJUST_YAW_VR             (9)
+#define ALTITUDE_VR               (10)
+
+//group 4
+//constants - back, cancel
+#define LAND_VR                   (26)
+#define RTL_VR                    (27)
+#define ORBIT_VR                  (25)
+
+//mission group 5
+//constants group 3, except upload mission
+//constants group 0, except drone
+#define EXECUTE_MISSION_VR        (6)
+//Active only after mission is executed
+#define TERMINATE_MISSION_VR      (7)
+
+//direction group 6
+//constants - cancel
+#define RELATIVE_VR               (11)
+#define ABSOLUTE_VR               (12)
+
+//direction group 7
+//constants - cancel
+#define NORTH_VR                  (17)
+#define EAST_VR                   (18)
+#define SOUTH_VR                  (19)
+#define WEST_VR                   (20)
+
+//yaw group 8
+//constants - cancel
+#define PORT_VR                   (13)
+#define STARBOARD_VR              (14)
+
+//altitude group 9
+//constants - cancel
+#define INCREASE_VR               (15)
+#define DECREASE_VR               (16)
+
+//speed group 10
+//constants - cancel
+#define SLOW_VR                   (21)
+#define SLOWER_VR                 (22)
+#define FAST_VR                   (23)
+#define FASTER_VR                 (24)
+
+//unassigned
+#define ONE_VR                    (28)
+#define TWO_VR                    (29)
+#define THREE_VR                  (30)
+#define FOUR_VR                   (31)
+#define FIVE_VR                   (32)
+#define SIX_VR                    (33)
+#define SEVEN_VR                  (34)
+#define EIGHT_VR                  (35)
+#define NINE_VR                   (36)
 ```
 There is no need to create groups with the voice commands. The commented groups you see in the code were for me to visualize 
 where in the code they will go and how they are used.
+
+## Seeting up the code for use with the Simulation
+When you are finally ready to test your newly made commands with the SITL drone be sure to uncomment and comment back certain portions of the code
+
+This code can be found in the main loop of the code in **Sofwerx_Glove_Microphone_v4.0_UDP** tab
+```
+/*
+if(startUp == false and starting == 0){
+display_STARTUP();
+}
+else if(starting == 1){
+currentMillis_start = millis();
+display_HEIGHT_INIT();
+}   
+
+
+if(display_SHOW == true){
+display_current();
+}
+if(startUp == true){
+COMMAND();
+COMMAND_VR();
+}
+*/
+
+display_current();
+```
+This should become:
+```
+if(startUp == false and starting == 0){
+display_STARTUP();
+}
+else if(starting == 1){
+currentMillis_start = millis();
+display_HEIGHT_INIT();
+}   
+
+
+if(display_SHOW == true){
+display_current();
+}
+if(startUp == true){
+COMMAND();
+COMMAND_VR();
+}
+
+
+//display_current();
+```
+
+The next bit of code to ensure is uncommented is found in the **Commands_VR** tab
+
+```
+ /* comment if not using simulation
+      if(startUp == true){
+        while(Alt < 0.95*Height){
+          UDP_RECEIVE_VR();
+          UDP_SEND_VR();
+          
+          if(Height == 0){
+            display_HEIGHT_INIT_VR();
+          }
+        }
+        if(Alt >= 0.95*Height){
+          display_SHOW = true;
+          INIT_ALT = true;
+        }
+      }
+      
+      if(startUp == true and INIT_ALT == true){
+        display_SEVEN_VR();
+        LOAD_VR();   
+        CURRENT_STATE_GESTURE_VR = 0;
+      }
+      */
+      
+      //Uncomment if not using Simulation
+      
+      display_SEVEN_VR();
+      LOAD_VR();   
+      CURRENT_STATE_GESTURE_VR = 0;
+```
+
+This should become:
+```
+///* comment if not using simulation
+      if(startUp == true){
+        while(Alt < 0.95*Height){
+          UDP_RECEIVE_VR();
+          UDP_SEND_VR();
+          
+          if(Height == 0){
+            display_HEIGHT_INIT_VR();
+          }
+        }
+        if(Alt >= 0.95*Height){
+          display_SHOW = true;
+          INIT_ALT = true;
+        }
+      }
+      
+      if(startUp == true and INIT_ALT == true){
+        display_SEVEN_VR();
+        LOAD_VR();   
+        CURRENT_STATE_GESTURE_VR = 0;
+      }
+//*/
+      
+      //Uncomment if not using Simulation
+      
+      /*
+      display_SEVEN_VR();
+      LOAD_VR();   
+      CURRENT_STATE_GESTURE_VR = 0;
+      */
+```
+
+There you have it! The simulation is ready to be tested using the code.
+
+**NOTE: Be sure to upload all current voice commands to your VR module!**
+
+Be sure to use the SITL code I have provided. If you require it again please send me a message and I'll get it to you ASAP.
+
+## Using the Simulation
+First things, first:
+Update the ip within the code to the ip of the esp module. The ip does show on the OLED on startup and it can be found within the Arduino IDE in the **port** section.
+```
+ip="YOUR_IP_HERE"
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
+
+def get_data():
+
+	global data, n
+
+	send_data = str(vehicle.location.global_relative_frame.alt) + "~" + str(vehicle.battery.level) + "~" + str(vehicle.groundspeed) + "~" 
+	s.sendto(send_data.encode('utf-8'), (ip, 4210))
+	data, address = s.recvfrom(4096)
+
+	n = data.decode('utf-8')
+```
+One thing you may want to do in your VM is to download the socket library.
+
+Simply use this command:
+
+```
+sudo apt-get install socket
+```
+
+Within the code you won't need 
+```
+import subprocess
+```
+or 
+```
+from six.moves import urllib
+```
+Since we are using UDP and no longer pulling from HTTP. urlib is no longer needed.
+
+You wont need subprocess either since the purpose of using subprocess was to use **cmd prompt** to find the devices **MAC** address and pull the devices **IP** automatically without having to input it. Seeing that the **MAC** does not change upon moving location.
+
+But since we are dealing with a VM, we are unable to detect WiFi devices with it.
+
+**NOTE: If you need any help creating your command within the simulation environment. Please let me know and I can create more small tutorials on such.**
+
+**A helpful link to refer to when finding out how to make a certain command is provided [HERE](https://dronekit-python.readthedocs.io/en/latest/).**
+
 
 ## MPU-6050 not working
 
