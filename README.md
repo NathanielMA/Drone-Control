@@ -439,7 +439,7 @@ Here is the list of each voice command that is currently supported. There is no 
 There is no need to create groups with the voice commands. The commented groups you see in the code were for me to visualize 
 where in the code they will go and how they are used.
 
-## Seeting up the code for use with the Simulation
+## Setting up the code for use with the Simulation
 When you are finally ready to test your newly made commands with the SITL drone be sure to uncomment and comment back certain portions of the code
 
 This code can be found in the main loop of the code in **Sofwerx_Glove_Microphone_v4.0_UDP** tab
