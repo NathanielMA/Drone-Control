@@ -605,6 +605,120 @@ But since we are dealing with a VM, we are unable to detect WiFi devices with it
 
 **A helpful link to refer to when finding out how to make a certain command is provided [HERE](https://dronekit-python.readthedocs.io/en/latest/).**
 
+## Using the custom library for the glove to read/write/recall gesture data
+This is a newly made library that I created to easily read/write/recall from the 256 bytes of EEPROM on the ESP 12E. I tried to make this library as easy to use as possible. Possibly can make it even easier, but this is how it goes.
+
+First: The header file
+```
+#include "GESTURE_REASSIGN.h" //Header to include the newly made library for read/write/recall operations
+```
+
+Second: int's and definitions. We'll need to create some variables of type float and size 7 and some definitions to be able to easily remember what each function is calling. Each byte can store a value from 0 - 255.
+
+Those are here:
+```
+//int's store values for all 5 flex sensors and X/Y data from the MPU6050
+int YAW_SAVE[7];
+int ALT_SAVE[7];
+int UPLOAD_SAVE[7];
+int EXECUTE_SAVE[7];
+int TERMINATE_SAVE[7];
+int RELATIVE_SAVE[7];
+int ABSOLUTE_SAVE[7];
+int RTL_SAVE[7];
+int LAND_SAVE[7];
+
+//Used by the header file to call the correct gesture type. If a new gesture is added. A simple addition the header is required. 
+#define REA_YAW_SAVE            0x00
+#define REA_ALT_SAVE            0x01
+#define REA_UPLOAD_SAVE         0x02
+#define REA_ORBIT_SAVE          0x03
+#define REA_EXECUTE_SAVE        0x04
+#define REA_TERMINATE_SAVE      0x05
+#define REA_RELATIVE_SAVE       0x06
+#define REA_ABSOLUTE_SAVE       0x07
+#define REA_RTL_SAVE            0x08
+#define REA_LAND_SAVE           0x09
+
+//Storage address in the EEPROM for the default values for each gesture.
+//Only store a value of either 0 or 1 in these addresses.
+//0: Default (installed) hand gesture
+//1: New (Created) hand gesture
+#define REA_YAW_DEFAULT         0x46    
+#define REA_ALT_DEFAULT         0x47 
+#define REA_UPLOAD_DEFAULT      0x48
+#define REA_EXECUTE_DEFAULT     0x49
+#define REA_TERMINATE_DEFAULT   0x4A
+#define REA_ORBIT_DEFAULT       0x4B
+#define REA_RELATIVE_DEFAULT    0x4C
+#define REA_ABSOLUTE_DEFAULT    0x4D
+#define REA_RTL_DEFAULT         0x4E
+#define REA_LAND_DEFAULT        0x4F
+```
+**NOTE: The addresses for the default values are stored from largest to smallest.**
+
+Third: We want to initialize the class by instantiating it with a given name. For simplicity, we'll be using these.
+```
+GESTURE_REASSIGN reassignYAW(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_YAW_SAVE);
+GESTURE_REASSIGN reassignALT(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_ALT_SAVE);
+GESTURE_REASSIGN reassignUPL(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_UPLOAD_SAVE);
+GESTURE_REASSIGN reassignORB(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_ORBIT_SAVE);
+GESTURE_REASSIGN reassignEXE(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_EXECUTE_SAVE);
+GESTURE_REASSIGN reassignTER(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_TERMINATE_SAVE);
+GESTURE_REASSIGN reassignREL(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_RELATIVE_SAVE);
+GESTURE_REASSIGN reassignABS(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_ABSOLUTE_SAVE);
+GESTURE_REASSIGN reassignRTL(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_RTL_SAVE);
+GESTURE_REASSIGN reassignLAN(Pointer, Middle, Digitus, Pinky, Thumb, DegX, DegY, REA_LAND_SAVE);
+```
+We'll create an instance for each gesture to ease confusion.
+
+Lastly, we'll cover the function calls for reading/writing/recalling.
+
+### REA_WRITE()
+To Write to the EEPROM we'll use **REA_WRITE()**
+```
+reassignYAW.REA_WRITE();
+```
+What this will do is take 64 samples of data from each flex sensor and the X/Y data from the MPU6050 and average the values. Then it will save the data to the EEPROM so that it persists after **POWER OFF**.
+
+**NOTE: Only using the REA_WRITE() function to create a NEW hand gesture for an existing command. It won't overwrite the existing (default) hand gesture. It will just take its' place.**
+
+### REA_READ()
+To Read from the EEPROM and upload existing data from it, we'll use **REA_READ()**.
+```
+reassignYAW.REA_READ();
+```
+What this will do is access the EEPROM and read the values stored at the specific addresses of the sensors for the gesture you are looking for. In this case, Yaw. When reading from the EEPROM, you'll want to save the data to a new variable like shown here:
+```
+      YAW_SAVE[0x00] = reassignYAW.REA_READ(0x00);
+      YAW_SAVE[0x01] = reassignYAW.REA_READ(0x01);
+      YAW_SAVE[0x02] = reassignYAW.REA_READ(0x02);
+      YAW_SAVE[0x03] = reassignYAW.REA_READ(0x03);
+      YAW_SAVE[0x04] = reassignYAW.REA_READ(0x04);
+      YAW_SAVE[0x05] = reassignYAW.REA_READ(0x05);
+      YAW_SAVE[0x06] = reassignYAW.REA_READ(0x06);
+      YAW_SAVE[0x07] = reassignYAW.REA_READ(0x07);
+```
+Surely, using a loop to go through each digit will be easier to read the data but as things are, the final byte read using a for loop is not read correctly. I am still looking into this for simplicities sake.
+
+### Reverting back to Default gesture without erasing old gesture
+One this you may want to do is revert back to the old gesture and not have to overwrite the newly made gesture.
+
+This can be easily done using **REA_DEFAULT()**.
+```
+reassignYAW.REA_DEFAULT();
+```
+This will change a value stored at the end of the EEPROM which is reponsible for handling this. The stored 1 or 0 is what will be changed.
+
+### Clearing the gesture
+Clearing the gesture can be done in one of two ways. 
+
+1. Overwriting the gesture with **REA_WRITE()**
+2. Erasing the data completely with **REA_CLEAR()**
+```
+reassignYAW.REA_CLEAR();
+```
+This function will completely erase the stored gesture and prevent the user from using the **REA_DEFAULT()** function to switch between two gestures. Because, the second gesture was deleted.
 
 ## MPU-6050 not working
 
