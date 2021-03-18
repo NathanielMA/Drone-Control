@@ -699,6 +699,33 @@ The variable holding whether the default gesture to be used or not will be alloc
 YAW_SAVE[7] = reassignYAW.REA_READ(REA_YAW_DEFAULT); //reads the default storage byte at 0xF6
 ```
 
+Currently, **ALL** programmed gestures have been added and are able to be reassigned, cleared, reverted to/from default/saved.
+
+Below, is an example of the structure for reading from the EEPROM and determining whether or not to use the default gesture or the saved gesture.
+```
+if(TERMINATE_SAVE[7] == 0){
+    GESTURE_TERMINATE_MISSION     =   Pointer > 50 and Middle > 50 and Digitus > 50 and Pinky > 40 and Thumb < 15 and DegX > 60 and DegY < 0 and DegY > -40;
+
+    REA_UPLOAD = false;
+  }
+  else
+  {
+    if(REA_UPLOAD == false){
+      for(reader = 0; reader < 7; reader++){
+        TERMINATE_SAVE[reader] = reassignTER.REA_READ(reader);
+      }
+      REA_UPLOAD = true;
+    }
+    
+    R_TER  = TERMINATE_SAVE[0] - 10 < Pointer  and Pointer   < TERMINATE_SAVE[0] + 10 and \
+                    TERMINATE_SAVE[1] - 10 < Middle   and Middle    < TERMINATE_SAVE[1] + 10 and \
+                    TERMINATE_SAVE[2] - 10 < Digitus  and Digitus   < TERMINATE_SAVE[2] + 10 and \
+                    TERMINATE_SAVE[3] - 10 < Pinky    and Pinky     < TERMINATE_SAVE[3] + 10 and \
+                    TERMINATE_SAVE[4] - 10 < Thumb    and Thumb     < TERMINATE_SAVE[4] + 10 and \
+                    TERMINATE_SAVE[6] - 20 < DegY     and DegY      < TERMINATE_SAVE[6] + 20;
+  }
+  ```
+
 ### Reverting back to Default gesture without erasing old gesture
 One this you may want to do is revert back to the old gesture and not have to overwrite the newly made gesture.
 
