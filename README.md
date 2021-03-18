@@ -686,20 +686,18 @@ What this will do is take 64 samples of data from each flex sensor and the X/Y d
 ### REA_READ()
 To Read from the EEPROM and upload existing data from it, we'll use **REA_READ()**.
 ```
-reassignYAW.REA_READ();
+reassignYAW.REA_READ(uint8_t var);
 ```
 What this will do is access the EEPROM and read the values stored at the specific addresses of the sensors for the gesture you are looking for. In this case, Yaw. When reading from the EEPROM, you'll want to save the data to a new variable like shown here:
 ```
-      YAW_SAVE[0x00] = reassignYAW.REA_READ(0x00);
-      YAW_SAVE[0x01] = reassignYAW.REA_READ(0x01);
-      YAW_SAVE[0x02] = reassignYAW.REA_READ(0x02);
-      YAW_SAVE[0x03] = reassignYAW.REA_READ(0x03);
-      YAW_SAVE[0x04] = reassignYAW.REA_READ(0x04);
-      YAW_SAVE[0x05] = reassignYAW.REA_READ(0x05);
-      YAW_SAVE[0x06] = reassignYAW.REA_READ(0x06);
-      YAW_SAVE[0x07] = reassignYAW.REA_READ(0x07);
+for(int reader = 0x00; reader < 0x07; reader++){
+      YAW_SAVE[reader] = reassignYAW.REA_READ(reader);
+}
 ```
-Surely, using a loop to go through each digit will be easier to read the data but as things are, the final byte read using a for loop is not read correctly. I am still looking into this for simplicities sake.
+The variable holding whether the default gesture to be used or not will be allocated in the start loop of the code to allow for the glove to set it accordingly based on user preference.
+```
+YAW_SAVE[7] = reassignYAW.REA_READ(REA_YAW_DEFAULT); //reads the default storage byte at 0xF6
+```
 
 ### Reverting back to Default gesture without erasing old gesture
 One this you may want to do is revert back to the old gesture and not have to overwrite the newly made gesture.
