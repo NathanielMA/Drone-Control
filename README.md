@@ -618,15 +618,15 @@ Second: int's and definitions. We'll need to create some variables of type float
 Those are here:
 ```
 //int's store values for all 5 flex sensors and X/Y data from the MPU6050
-int YAW_SAVE[7];
-int ALT_SAVE[7];
-int UPLOAD_SAVE[7];
-int EXECUTE_SAVE[7];
-int TERMINATE_SAVE[7];
-int RELATIVE_SAVE[7];
-int ABSOLUTE_SAVE[7];
-int RTL_SAVE[7];
-int LAND_SAVE[7];
+int YAW_SAVE[8];
+int ALT_SAVE[8];
+int UPLOAD_SAVE[8];
+int EXECUTE_SAVE[8];
+int TERMINATE_SAVE[8];
+int RELATIVE_SAVE[8];
+int ABSOLUTE_SAVE[8];
+int RTL_SAVE[8];
+int LAND_SAVE[8];
 
 //Used by the header file to call the correct gesture type. If a new gesture is added. A simple addition the header is required. 
 #define REA_YAW_SAVE            0x00
