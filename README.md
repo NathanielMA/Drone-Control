@@ -694,7 +694,7 @@ for(int reader = 0x00; reader < 0x07; reader++){
       YAW_SAVE[reader] = reassignYAW.REA_READ(reader);
 }
 ```
-The variable holding whether the default gesture to be used or not will be allocated in the start loop of the code to allow for the glove to set it accordingly based on user preference.
+The variable holding whether the default gesture to be used or not will be allocated in the **GESTURES** tab of the code to allow for the glove to set it accordingly based on user preference.
 ```
 YAW_SAVE[7] = reassignYAW.REA_READ(REA_YAW_DEFAULT); //reads the default storage byte at 0xF6
 ```
