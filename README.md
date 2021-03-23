@@ -28,8 +28,9 @@ we are able to send UDP packets to and from the Drone!
 ### Version 2
 ![IMG_0960_2](https://user-images.githubusercontent.com/79669935/110272606-98307080-7f98-11eb-8947-2f7fc802cc9b.jpg)
 
-
 ### Version 3
+![IMG_1099](https://user-images.githubusercontent.com/79669935/112167870-2dea1380-8bc7-11eb-880d-45667a43e648.jpg)
+![IMG_1100](https://user-images.githubusercontent.com/79669935/112167889-317d9a80-8bc7-11eb-9efa-3551b6a823d4.jpg)
 
 ## TEAMMATES PLEASE READ:
 
