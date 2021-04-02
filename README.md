@@ -759,3 +759,80 @@ You can change this value in the **Main** tab. It'll look something like this.
 // MPU6050 Slave Device Address
 const uint8_t MPU6050SlaveAddress = 0x69;
 ```
+
+# PROJECT PROGRESSION
+__________________________
+## Getting started
+
+To start, the initial operation of the glove had to be thought about. What type of flex sensors were required, were they different, what length do they have to be? Followed by, whats the best gyroscope and accelerometer that could be used with a small pricepoint. Lastly, what MCU should be used to incorporate everything and run fast enough.
+
+### MCU board
+The MCU was easily decided after a suggestion from the professor and settled on the ESP8266 12-E WiFi module. This unit was the best fit to replace the Arduino Nano's 8-bit MCU and lack of WiFi. Since the ESP8266 12-E has a built in WiFi module at a fraction of the cost and is a 32-bit MCU.
+
+### Power supply
+A 9V battery at hand was the first thought of power supply. Though not conventional, it was my cheapest and most easily acquirable solution. The LM7805 was used as a 5V DC regulator to power the MCU.
+
+### Gyroscope and Accelerometer
+The gyroscope/accelerometer was picked out first. I decided upon the MPU-6050 for its low pricepoint and easy integration with Arduino and ESP projects. 
+
+### Flex sensors and ADC extension
+The flex sensors were then approached. First, I only bought one to test and set up the code for each finger using the one. Afterwards, 2 more were bought to use for the middle and digitus. Later, the adafruit 2.2" flex sensors were bought for the pinky and thumb. The code for the pinky and thumb had to be adjusted slightly because there values increased and decreased opposite to that of the other flex sensors. The only problem was the ESP8266 12-E had only one ADC, and I needed 5 ADC to incorporate all 5 flex sensors.
+Which brought me to light of ADC extension boards, more importantly, the ADS1115 which adds an additional 4 high precision 16-bit ADC pins. Two were needed.
+
+### Display
+I wanted to try to ease troubleshooting by allowing an easier to read data stream onto a screen attached to my hand rather than opening up a serial monitor every time. I decided upon the 0.96" OLED display from adafruit which worked perfectly.
+
+## First prototype
+_______________________________
+After all the components were aqcuired and incorporated into the intial glove code, and assembly onto something other than a breadboard was needed. I approached the cheap and easy to use prototype pcb boards from amazon to put everything together. Given my first time Soldering and component placement, the board came out looking a bit of a mess. Though, it did only take 2 weeks from start to first prototype. The first prototype utilized the full fledge ESP8266 board, which we were not allowed to use for the final design. So some thought on how to use the 12-E castellated chip had to be done.
+### SITL
+7 of the 10 ahnd gesture commands were created with the first prototype
+
+### Troubleshooting
+Troubleshooting code became a hassle since the glove had to be connected serially to update any problems with code or to test with the SITL program.
+
+### Bootloading
+Bootloading the board using a serial connection was also the only option at the time.
+
+## Second Prototype
+________________________________
+A solution had been found on separate product websites for the castellated 12-E chip on how to set it up properly. 
+
+The bootloader had to be created to bootload the code directly to the board and a new powersupply was needed to supply a stable 3.3V to the ESP12-E. The bootloader was decided upon using a simply USB-TTL converter chip and DIP-switches to set the logic levels for GPIO0, 2, and 15 accordingly to set the MCU into Boot mode.
+
+### Power supply
+Next, the LM317 was decided upon based on already having multiple of them from purchasing a standard box of regulators (including the LM7805). The LM317 was later switched out for the TR05S3V3 to increase battery efficiency.
+
+### Shield attachment
+I wanted to decrease the size of the prototype board to fit everything onto a single board. But, with the increase in components the smallest size board will not allow for the bootloader and powersupply. A solution was thought up to have the bootloader and powersupply on a "shield" board and have it attach to the main board using header pins. This solution worked.
+
+### 3D printing
+Next, I needed a base for the board to sit on which required a simply case to be made. I had acquired an Ender 3 Pro 3D printer to do the job. The initial model had enough space to carry the board and battery.
+
+### Code updates
+The code was updated to allow for use of the WiFi unit on board the ESP12-E. This allowed for the use of the HTTP protocol to send glove data to its IP and I had coded python to recieve the data from the IP. With this, the serial connection was no longer needed to test the SITL program, as it could be done wirelessly.
+
+Future methods of WiFi use were also being thought up at this point. This included the use of the ESP as an Accesspoint instead of a Station and whether to use TCP or UDP as a better protocol to send data instead of HTTP.
+
+It wasn't too long after that I updated the code to allow for bootloading wirelessly utilizing ArduinoOTA. This sped up the time to update the code rather than connecting the device serially and using the DIP-switches to put the ESP into boot mode.
+
+Commands for landing, RTL, and orbit were created during this time.
+
+## Version 3
+_______________________________
+With the completion of the second prototype, the entire schematic had to be created and fine tuned. Though, not without mistakes. I used JLCPCB's free PCB program easyEDA to create the schematic and PCB design. Afterwards, the first PCB board was ordered and on the way.
+
+### Code updates
+During the waiting time for the PCB, I updated the codes WiFi to first use the ESP as an access point, then a station, then attempted TCP and finally settle apon WiFi UDP. With each change, required an overhaul of each gesture and python code. WiFi UDP was not only the easiest method to incorporate, but it was the fastest for the needs required. Without needing an acknologement or handshake to ensure the message was recieved. The UDP protocol sends an immense amount of packets to the address. Even if a couple packets to arrive, only a couple need to be recieved. Utilizing UDP also allowed for data to be sent back to the glove to be displayed.
+
+### First PCB
+With the arrival of the first PCB, everything worked perfectly and a few things did not. The MPU-6050 was not working properly because of the AD0 slave address pin. Later found out changing the slave address of the device in the code was the solution. Last, the new bootloader did not work. I switched to the CH340 USB - TTL converter chip as it was cheap and easy to set-up. But the problem was the RX/TX pins were misplaced. This was later fixed with a new PCB overhaul and reorder. An addition of a 9V supply to a header pin was required for the future voice module requiring 5V DC supply. A TR05S05 was used as the 5V DC regulator.
+
+The PCB had used the header pins for a shield attachment which was the idea from the second prototype. The purpose this time was to allow for the microphone to be easily attached. Since, I did not have direct access to the microphone and a schmetic was not possible to ensure a proper remake. the shield attachment was the only option. A Voice recognition module was later acquired from amazon to test.
+
+### Voice module
+After the module arrived, it took only a few days to incorporate it in the code. With an initial 42 registered voice commands, all 10 hand gestures were created again using voice commands. The voice module had a single problem when implementing with the ESP. The 5V supply was too high for TTL logic levels and had to be scaled down to below 5V. A 10 ohm resistor was used.
+
+### Code Updates
+One feature that was asked of was a way to reassign hand gestures to different gestures. A library was created to easily read/write to the ESP onboard 256 bytes of EEPROM. The code was then created utilizing voice commands to Write/recall/clear/revert hand gestures. The code was also updated to automatically read from the EEPROM to enable previously saved preferences for hand gestures.
+
